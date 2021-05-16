@@ -17,8 +17,10 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- start -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
+        <div class="container">
             <a class="navbar-brand" href="#">Link Share</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -26,15 +28,15 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form class="d-flex" action="" method="post">
+                <form class="d-flex my-2" action="" method="post">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
                         name="search" id="search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
-                <ul class="navbar-nav mx-lg-2 me-auto">
-                    <li class="nav-item">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop">Add Link</button>
+                <ul class="navbar-nav navbar-right mx-lg-2">
+                    <li>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">Add Link</button>
                     </li>
                 </ul>
             </div>
@@ -60,19 +62,25 @@
             </div>
         </div>
     </div>
-    <ul class="list-group list-group-flush">
-        {% for link in links %}
-        <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div class="ms-2 me-auto">
-                <div class="fw-bold">{{ link.title }}</div>
-                {% for tag in link.tags.all %}
-                <button type="button" class="btn btn-secondary btn-sm">{{tag}}</button>
-                {% endfor %}
+    <div class="container">
+        <div class="row">
+            <div class="col col-lg-8">
+                <ul class="list-group list-group-flush">
+                    {% for link in links %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">{{ link.title }}</div>
+                            {% for tag in link.tags.all %}
+                            <button type="button" class="btn btn-secondary btn-sm">{{tag}}</button>
+                            {% endfor %}
+                        </div>
+                        <span class="badge bg-primary rounded-pill">{{link.likes}}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
-            <span class="badge bg-primary rounded-pill">{{link.likes}}</span>
-        </li>
-        {% endfor %}
-    </ul>
+        </div>
+    </div>
     {% for msg in messages %}
     <p>{{ msg }}</p>
     {% endfor %}
@@ -98,6 +106,42 @@
                     },
                 })
         }
+
+        $(function () {
+            $('input').on('change', function (event) {
+
+                var $element = $(event.target);
+                var $container = $element.closest('.example');
+
+                if (!$element.data('tagsinput'))
+                    return;
+
+                var val = $element.val();
+                if (val === null)
+                    val = "null";
+                var items = $element.tagsinput('items');
+                console.log(items[items.length - 1]);
+
+                $('code', $('pre.val', $container)).html(($.isArray(val) ? JSON.stringify(val) : "\"" + val.replace('"', '\\"') + "\""));
+                $('code', $('pre.items', $container)).html(JSON.stringify($element.tagsinput('items')));
+
+                console.log(val);
+                console.log(items);
+                console.log(JSON.stringify(val));
+                console.log(JSON.stringify(items));
+
+                console.log(items[items.length - 1]);
+
+            }).trigger('change');
+        });
+
+        $("#button").click(function () {
+            var input = $("input[name='tags']").tagsinput('items');
+            console.clear();
+            console.log(input);
+            console.log(JSON.stringify(input));
+            console.log(input[input.length - 1]);
+        });
     </script>
 </body>
 
