@@ -1,26 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Login Page</h1>
-    <form action="" method="post">
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username">
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password">
-        <br>
-        <input type="submit" value="Login">
-    </form>
-    <a href="{% url 'authentication:register' %}">Register</a>
-    {% for msg in messages %}
-    <p>{{ msg }}</p>
-    {% endfor %}
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-3">
+            <form class="form-signin text-center" method="POST" action="">
+                {% csrf_token %}
+                <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
+                <label for="inputUsername" class="sr-only">User name</label>
+                <input type="text" id="inputUsername" class="form-control" placeholder="User name" required="" autofocus="" name="username">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" name="password">
+                <div class="checkbox mb-3">
+                  <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                  </label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button><br>
+                <a href="{% url 'authentication:register' %}">Register</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

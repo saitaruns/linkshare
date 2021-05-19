@@ -7,6 +7,8 @@ class Link(models.Model):
     title = models.CharField(max_length=200)
     link = models.URLField(max_length=200)
     likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
+    clicks = models.IntegerField(default=0)
     date = models.DateField(auto_now_add=True)
     uploaded_by = models.ForeignKey(User,on_delete=models.CASCADE)
     tags = TaggableManager()

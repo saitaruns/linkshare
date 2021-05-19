@@ -1,19 +1,17 @@
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <input type="submit" value="Register">
-    </form>
-    <a href="{% url 'authentication:login' %}">Login</a>
-</body>
-</html>
+{% block content %}
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-5">
+            <form action="" method="post">
+                <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button><br>
+            </form>
+            <a href="{% url 'authentication:login' %}">Login</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

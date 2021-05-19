@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'mainapp/navbar.html' %}
+<div class="container">
+    <div class="row">
+        <div class="col col-lg-8">
+            {% block name %}
+            <p style="margin-left:40px;margin-top:10px;">Realted Links</p>
+            {% endblock %}
+            <ul class="list-group list-group-flush">
+                {% for link in links %}
+                <li class="list-group-item">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col col-lg-10">
+                                <h4 class="mb-1"><a class="text-decoration-none text-dark" href="{{ link.link }}">{{ link.title }}</a></h4>
+                                <p><a class="text-decoration-none text-success" href="{{ link.link }}">{{ link.link }}</a></p>
+                                {% for tag in link.tags.all %}
+                                <a class="badge bg-dark text-light" style="cursor: pointer;" href="{% url 'mainapp:taglinks' tag.name %}">{{ tag }}</a>
+                                {% endfor %}
+                            </div>
+                            <div class="col col-lg-2 d-flex flex-column justify-content-between align-items-end">
+                                <span class="badge bg-light text-dark">12 clicks</span>
+                                <span class="badge bg-light text-dark">{{ link.likes }} verifications</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {% empty %}
+                <li class="list-group-item">No results found</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
