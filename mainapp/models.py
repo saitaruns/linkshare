@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.fields.related import ForeignKey, ManyToManyField, OneToOneField
 from taggit.managers import TaggableManager
 
 # Create your models here.
@@ -16,3 +17,10 @@ class Link(models.Model):
     def __str__(self):
         return self.title
 
+class Click(models.Model):
+    linkref = ForeignKey(Link,on_delete=models.CASCADE)
+    userref = ForeignKey(User,on_delete=models.CASCADE)
+    status = models.BooleanField()
+
+    def __str__(self):
+        return self.linkref.title + " , " +self.userref.username

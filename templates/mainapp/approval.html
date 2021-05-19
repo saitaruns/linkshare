@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container h-75">
+    <div class="row h-75 justify-content-center align-items-center">
+        <div class="col-lg-4">
+            <form action="{% url 'mainapp:approval' link.id %}" method="post">
+                {% csrf_token %}
+                <h4>{{link.title}}</h4>
+                <p>{{link.link}}</p>
+                <button type="submit" class="btn btn-primary" name="approved">Approve</button>
+                <button type="submit" class="btn btn-danger" name="reported">Report</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
