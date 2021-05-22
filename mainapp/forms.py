@@ -5,4 +5,4 @@ from .models import Link
 class LinkForm(forms.ModelForm):
     class Meta:
         model = Link
-        exclude = ('uploaded_by','likes','dislikes','clicks')
+        exclude = ('uploaded_by','likes','dislikes','clicks','urlslug')

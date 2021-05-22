@@ -9,28 +9,31 @@
                 <ul class="list-group list-group-flush">
                 
                 {% block name %}
-                <p style="margin-left:40px;margin-top:10px;">
+                <h6 style="margin-left:40px;margin-top:10px;">
                     {% if search == "" %}
-                        Trending
+                        Trending <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up text-success" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
+                          </svg>
                     {% else %}
-                        Search results
+                        Search results for "{{ search }}"
                     {% endif %}
-                </p>
+                </h6>
                 {% endblock %}
                     {% for link in links %}
                     <li class="list-group-item">
                         <div class="container">
                             <div class="row">
                                 <div class="col col-lg-10">
-                                    <h4 class="mb-1"><a class="text-decoration-none text-dark" href="{% url 'mainapp:click' link.id %}">{{ link.title }}</a></h4>
-                                    <p><a class="text-decoration-none text-success" href="{% url 'mainapp:click' link.id %}">{{ link.link }}</a></p>
+                                    <p style="font-size: smaller;" class="m-0">{{ link.date }}</p>
+                                    <h4 class="mb-1" style="transform: rotate(0);"><a class="text-decoration-none text-dark stretched-link" href="{% url 'mainapp:click' link.urlslug %}">{{ link.title }}</a></h4>
+                                    <p class="m-0"><a  href="{% url 'mainapp:click' link.urlslug %}"> {{ request.get_host }}{% url 'mainapp:click' link.urlslug %}</a></p>
                                     {% for tag in link.tags.all %}
                                     <a class="badge bg-dark text-light" style="cursor: pointer;" href="{% url 'mainapp:tag' tag.name %}">{{ tag }}</a>
                                     {% endfor %}
                                 </div>
-                                <div class="col col-lg-2 d-flex flex-column justify-content-between align-items-end">
-                                    <span class="badge bg-light text-dark">{{ link.clicks }} clicks</span>
-                                    <span class="badge bg-success">{{ link.likes }} approved</span>
+                                <div class="col col-lg-2 d-flex flex-column justify-content-end align-items-end">
+                                    <span class="badge bg-light text-dark">{{ link.clicks }} {% if link.clicks > 1 %} clicks{% else %} click{% endif%}</span>
+                                    <span class="badge bg-success my-1">{{ link.likes }} approved</span>
                                     <span class="badge bg-danger">{{ link.dislikes }} reported</span>
                                 </div>
                             </div>
