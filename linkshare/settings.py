@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#8rf)7zg8oze46t2m4xm^a0b^7j$(dqsifbr8*dtkx#p*++jv-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -38,13 +38,41 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     #thirdyparty
     'crispy_forms',
     'taggit',
     #myapps
     'authentication',
-    'mainapp'
+    'mainapp',
+    #django-allauth
+    'allauth',  
+    'allauth.account',  
+    'allauth.socialaccount', 
+    'allauth.socialaccount.providers.google',   
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+LOGIN_REDIRECT_URL = '/'
+
+SITE_ID = 1
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -108,6 +136,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

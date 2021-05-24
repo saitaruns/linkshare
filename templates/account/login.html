@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block content %}
+    <h1 class="px-3 pt-3">LinkShare</h1>
+    <hr>
+    <div class="mt-auto d-flex flex-column w-25 align-self-center">
+        <h1>Login or Signup</h1>
+        <hr>
+        <p>Login or signup with google </p>
+        <a class="btn btn-danger text-center d-flex align-items-center justify-content-center text-center" href="{% provider_login_url 'google' %}"><img height="15" src="{% static 'google.png' %}"><span class="w-100">Google</span></a>
+    </div>            
+{% endblock %}

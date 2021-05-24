@@ -1,10 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container h-100">
-    <div class="row h-100 justify-content-center align-items-center">
-        <div class="col-3">
-            <form class="form-signin text-center" method="POST" action="">
+            <form class="mt-auto align-self-center w-25" method="POST" action="">
                 {% csrf_token %}
                 <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
                 <label for="inputUsername" class="sr-only">User name</label>
@@ -17,9 +14,7 @@
                   </label>
                 </div>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button><br>
+                <p>or</p>
                 <a href="{% url 'authentication:register' %}">Register</a>
             </form>
-        </div>
-    </div>
-</div>
 {% endblock %}

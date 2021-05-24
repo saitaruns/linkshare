@@ -1,17 +1,16 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="container h-100">
-    <div class="row h-100 justify-content-center align-items-center">
-        <div class="col-5">
-            <form action="" method="post">
+<style>
+    #hint_id_password1{
+        display: none;
+    }
+</style>
+            <form action="" method="post" class="mt-auto align-self-center w-25">
                 <h1 class="h3 mb-3 font-weight-normal">Register</h1>
                 {% csrf_token %}
                 {{ form|crispy }}
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button><br>
+                <a href="{% url 'authentication:login' %}" class="mt-2">Login Instead</a>
             </form>
-            <a href="{% url 'authentication:login' %}">Login</a>
-        </div>
-    </div>
-</div>
 {% endblock %}

@@ -15,7 +15,7 @@ from django.contrib import messages
 def error(request,exception):
     return render(request,'error.html',{})
 
-@login_required(login_url='authentication:login')
+@login_required(login_url='account_login')
 def home_view(request,tag=""):
     click = Click.objects.filter(Q(userref=request.user) & Q(status=False)).first()
     if click is not None:
@@ -37,7 +37,7 @@ def home_view(request,tag=""):
     links = paginator.get_page(page_number)
     return render(request,'mainapp/home.html',{"form":form,"links":links,"search":keyword or ""})
 
-@login_required(login_url='authentication:login')
+@login_required(login_url='account_login')
 def related_tags(request,tag=""):
     form = LinkForm()
     links = []
@@ -48,7 +48,7 @@ def related_tags(request,tag=""):
         links = paginator.get_page(page_number)
     return render(request,'mainapp/relatedlinks.html',{"links":links,"form":form})
 
-@login_required(login_url='authentication:login')
+@login_required(login_url='account_login')
 def approvalView(request,urlslug):
     link = Link.objects.get(urlslug=urlslug)
     if not Click.objects.filter( Q(linkref=link) & Q(userref=request.user) ).exists():
@@ -66,7 +66,7 @@ def approvalView(request,urlslug):
         return redirect('mainapp:home')
     return render(request,'mainapp/approval.html',{"link":link})
 
-@login_required(login_url='authentication:login')
+@login_required(login_url='account_login')
 def link_click(request,urlslug):
     l = Link.objects.get(urlslug=urlslug)
     obj,created = Click.objects.get_or_create(linkref=l,userref=request.user,defaults={'status':False})
@@ -85,7 +85,7 @@ def shortit(url):
     else:
         shortit(url)
 
-@login_required(login_url='authentication:login')
+@login_required(login_url='account_login')
 def link_save(request):
     if request.is_ajax and request.method == 'POST':
         form = LinkForm(request.POST)

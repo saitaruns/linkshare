@@ -12,6 +12,12 @@
 <body class="d-flex flex-column h-100">
     {% block content %}
     {% endblock %}
+    {% for msg in messages %}
+    <div class="alert alert-{{msg.tags}} alert-dismissible fade show w-25 fixed-bottom mx-3" role="alert">
+        {{ msg }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
       <footer class="footer mt-auto py-3 bg-light">
         <div class="container">
           <span class="text-muted">Link Share.</span>
