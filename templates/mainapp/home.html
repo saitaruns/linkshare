@@ -1,92 +1,128 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-    <!-- start -->
-    {% block content %}
-    {% include 'mainapp/navbar.html' %}
-    <div class="container">
-        <div class="row">
-            <div class="col col-lg-8">
-                <ul class="list-group list-group-flush">
-                
+<!-- start -->
+{% block content %}
+{% include 'mainapp/navbar.html' %}
+<div class="container">
+    <div class="row">
+        <div class="col col-lg-8">
+            <ul class="list-group list-group-flush">
+
                 {% block name %}
-                <h6 style="margin-left:40px;margin-top:10px;">
-                    {% if search == "" %}
-                        Trending <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up text-success" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
-                          </svg>
+                <h6 style="margin-left:15px;margin-top:10px;">
+                    {% if tag %}
+                    Tagged links for "{{ tag }}""
                     {% else %}
-                        Search results for "{{ search }}"
+                    {% if search == "" %}
+                    Trending <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-graph-up text-success" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z" />
+                    </svg>
+                    {% else %}
+                    Search results for "{{ search }}"
+                    {% endif %}
                     {% endif %}
                 </h6>
                 {% endblock %}
-                    {% for link in links %}
-                    <li class="list-group-item">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col col-lg-10">
-                                    <p style="font-size: smaller;" class="m-0">{{ link.date }}</p>
-                                    <h4 class="mb-1" style="transform: rotate(0);"><a target="_blank" class="text-decoration-none stretched-link btn-outline-white" href="{% url 'mainapp:click' link.urlslug %}">{{ link.title }}</a></h4>
-                                    <p class="m-0"><a class="btn-outline-white text-success" target="_blank" href="{% url 'mainapp:click' link.urlslug %}"> {{ request.get_host }}{% url 'mainapp:click' link.urlslug %}</a></p>
-                                    {% for tag in link.tags.all %}
-                                    <a class="badge bg-dark text-light" style="cursor: pointer;" href="{% url 'mainapp:tag' tag.name %}">{{ tag }}</a>
-                                    {% endfor %}
-                                </div>
-                                <div class="col col-lg-2 d-flex flex-column justify-content-end align-items-end">
-                                    <span class="badge bg-light text-dark">{{ link.clicks }} {% if link.clicks > 1 %} clicks{% else %} click{% endif%}</span>
-                                    <span class="badge bg-success my-1">{{ link.likes }} approved</span>
-                                    <span class="badge bg-danger">{{ link.dislikes }} reported</span>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    {% empty %}
-                    <li class="list-group-item">No results found</li>
-                    {% endfor %}
-                </ul>
-                
-                {% if links.has_other_pages %}
-                <ul class="pagination justify-content-center">
-                    {% if links.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ links.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Previous</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">Previous</span>
-                    </li>
-                    {% endif %}
-                    
-                    {% for i in links.paginator.page_range %}
-                        {% if links.number == i %}
-                            <li class="page-item active" aria-current="page"><span class="page-link">{{ i }}</span></li>
-                        {% else %}
-                            <li class="page-item"><a class="page-link" href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ i }}</a></li>
-                        {% endif %}
-                    {% endfor %}
 
-                    {% if links.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ links.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Next</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">Next</span>
-                    </li>
-                    {% endif %}
-                </ul>
+
+                <!-- links -->
+                {% for link in links %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col col-8">
+                            <p style="font-size: smaller;" class="m-0">{{ link.date }}</p>
+                            <h4 class="mb-1" style="transform: rotate(0);"><a target="_blank"
+                                    class="text-decoration-none stretched-link btn-outline-white"
+                                    href="{% url 'mainapp:click' link.urlslug %}">{{ link.title }}</a></h4>
+                            {% for tag in link.tags.all %}
+                            <a class="badge bg-dark text-light" style="cursor: pointer;"
+                                href="{% url 'mainapp:tag' tag.name %}">{{ tag }}</a>
+                            {% endfor %}
+                        </div>
+                        <div class="col col-4 d-flex flex-column align-items-end justify-content-center">
+                            <span class="badge bg-light text-dark">{{ link.clicks }} {% if link.clicks > 1 %} clicks
+                                {% else %} click{% endif %}</span>
+                            <span class="badge bg-danger text-light" id="span_{{ link.urlslug }}">{{ link.reported_by.count }} {% if link.reported_by.count > 1 %} reports
+                                {% else %} report {% endif %} </span>
+                            {% if request.user not in link.reported_by.all %}
+                            {% csrf_token %}<button class="btn btn-sm btn-outline-danger my-1"
+                                value="{{ link.urlslug }}" id="btn_{{ link.urlslug }}"
+                                onclick="reportLink(this.value);">Report</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+                {% empty %}
+                <li class="list-group-item">No results found</li>
+                {% endfor %}
+            </ul>
+
+
+
+            <!-- pagination -->
+            {% if links.has_other_pages %}
+            <ul class="pagination justify-content-center">
+                {% if links.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?page={{ links.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Previous</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
                 {% endif %}
-            </div>
+
+                {% for i in links.paginator.page_range %}
+                {% if links.number == i %}
+                <li class="page-item active" aria-current="page"><span class="page-link">{{ i }}</span></li>
+                {% else %}
+                <li class="page-item"><a class="page-link"
+                        href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ i
+                        }}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                {% if links.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?page={{ links.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Next</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+                {% endif %}
+            </ul>
+            {% endif %}
         </div>
     </div>
-    <script>
-        function openlink(url)
-{
-  //Open in new tab
-  window.open(url, '_blank');
-  //focus to thet window
-  window.focus();
-  //reload current page
-  location.reload();
-}
-    </script>
-    {% endblock %}
+</div>
+<script defer>
+    function reportLink(urlslug) {
+        var csrf = $("[name=csrfmiddlewaretoken]").val();
+        $.ajax(
+            {
+                type: "POST",
+                url: "{% url 'mainapp:report' %}",
+                headers: {
+                    "X-CSRFToken": csrf
+                },
+                data: {
+                    "urlslug": urlslug,
+                },
+                success: function (data) {
+                    if (data["message"] == "loginrequired") {
+                        window.location.href = "{% url 'account_login' %}"
+                    } else {
+                        $("#btn_" + urlslug).remove()
+                        var v = parseInt($("#span_" + urlslug).text().charAt(0),10)+1
+                        $("#span_" + urlslug).text(v+" reports")
+                    }
+                },
+            })
+    }
+</script>
+{% endblock %}
