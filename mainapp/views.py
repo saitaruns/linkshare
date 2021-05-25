@@ -29,11 +29,10 @@ def home_view(request,tag=""):
             if keyword is not None and keyword != "":
                 link_list = Link.objects.filter(Q(title__startswith=keyword)|Q(title__icontains=keyword)|Q(tags__name=keyword)).distinct().order_by('-date')
             else:
-                link_list = Link.objects.all()
+                link_list = Link.objects.all().order_by('-date')
     paginator = Paginator(link_list, 10) 
     page_number = request.GET.get('page')
     links = paginator.get_page(page_number)
-    print(links)
     return render(request,'mainapp/home.html',{"form":form,"links":links,"search":keyword or "","tag":tag})
 
 def report(request):

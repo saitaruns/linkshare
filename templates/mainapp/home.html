@@ -9,7 +9,7 @@
             <ul class="list-group list-group-flush">
 
                 {% block name %}
-                <h6 style="margin-left:15px;margin-top:10px;">
+                <h6 style="margin-left:15px;margin-top:10px;margin-bottom: 0;">
                     {% if tag %}
                     Tagged links for "{{ tag }}""
                     {% else %}
@@ -23,9 +23,9 @@
                     Search results for "{{ search }}"
                     {% endif %}
                     {% endif %}
+                    <hr>
                 </h6>
                 {% endblock %}
-
 
                 <!-- links -->
                 {% for link in links %}

@@ -15,15 +15,38 @@
     crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
+  <style>
+
+    /* Small devices (portrait tablets and large phones, 600px and up) */
+    @media only screen and (min-width: 600px) {
+      .uniq {
+        width: 90%;
+      }
+    }
+
+    /* Medium devices (landscape tablets, 768px and up) */
+    @media only screen and (min-width: 768px) {
+      .uniq {
+        width: 30%;
+      }
+    }
+
+    /* Large devices (laptops/desktops, 992px and up) */
+    @media only screen and (min-width: 992px) {
+      .uniq {
+        width: 25%;
+      }
+    }
+  </style>
 </head>
 
 <body class="d-flex flex-column h-100">
   {% block content %}
   {% endblock %}
   {% for msg in messages %}
-  <div class="alert alert-{{msg.tags}} alert-dismissible fade show w-25 fixed-bottom mx-3 uniq" role="alert">
+  <div class="alert alert-{{msg.tags}} alert-dismissible fade show fixed-bottom mx-3 uniq shadow" role="alert">
     <strong>{{ msg }}</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
   {% endfor %}
   <footer class="footer mt-auto py-3 bg-light">
@@ -35,6 +58,7 @@
     setTimeout(function () {
       $('.uniq').fadeOut('fast');
     }, 2000);
+    $(".btn").addClass("shadow-none");
   </script>
 </body>
 
